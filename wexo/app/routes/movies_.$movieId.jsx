@@ -16,7 +16,7 @@ export async function loader({ params }) {
 
   const result = await response.json();
 
-  console.log(result);
+  // console.log(result);
 
   const movie = {};
   movie.title = result.title;
@@ -36,8 +36,6 @@ export async function loader({ params }) {
   movie.directors = result["plprogram$credits"]
     .filter((credit) => credit["plprogram$creditType"] == "director")
     .map((director) => director["plprogram$personName"]);
-
-  // console.log(movie);
 
   return json({ movie, result });
 }

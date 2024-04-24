@@ -1,0 +1,31 @@
+input,
+button {
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  background-color: white;
+  line-height: 1.5;
+  margin: 0;
+  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+}
+
+li {
+    list-style-type: none;
+    display:flex;
+    /* border: 1px solid black; */
+    align-items: center;
+}
+
+form button[value="true"] {
+    color: #a4a4a4;
+}
+form button[value="true"]:hover,
+form button[value="false"] {
+    color: #eeb004;
+}
+
+li button {
+    box-shadow: none;
+}

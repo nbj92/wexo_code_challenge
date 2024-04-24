@@ -11,6 +11,12 @@ import {
 } from "@remix-run/react";
 import { authenticator } from "./services/auth.server";
 
+// existing imports
+
+import appStylesHref from "./styles/app.css?url";
+
+export const links = () => [{ rel: "stylesheet", href: appStylesHref }];
+
 export function Layout({ children }) {
   return (
     <html lang="en">

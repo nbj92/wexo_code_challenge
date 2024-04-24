@@ -1,9 +1,15 @@
+import { redirect } from "@remix-run/react";
+
 export const meta = () => {
   return [
     { title: "New Remix App" },
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
+
+export async function loader() {
+  return redirect("/movies", { replace: true });
+}
 
 export default function Index() {
   return (

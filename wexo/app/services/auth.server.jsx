@@ -22,7 +22,8 @@ authenticator.use(
     };
 
     if (email === userObj.email && password === userObj.password) {
-      user = userObj.email;
+      user = userObj;
+      user.password = undefined;
     } else {
       throw new AuthorizationError("Bad Credentials");
     }
