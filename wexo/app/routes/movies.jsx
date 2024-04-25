@@ -1,38 +1,11 @@
-import { Link, Outlet, json, redirect, useLoaderData } from "@remix-run/react";
-import Favorit from "../components/favorite";
+import { json, useLoaderData } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
-import { commitSession, getSession } from "../services/session.server";
+import { commitSession } from "../services/session.server";
 import MovieList from "../components/movieList";
+import favoriteUpdate from "../functions/favoriteUpdate";
 
 export async function action({ request }) {
-  const formData = await request.formData();
-
-  const favorite = formData.get("favorite");
-  const movieId = formData.get("movieId");
-  const movieTitle = formData.get("movieTitle");
-
-  const session = await getSession(request.headers.get("Cookie"));
-  let user = session.data.user;
-  let userFavorites = user.favorites;
-  const movie = { title: movieTitle, id: movieId };
-  if (favorite === "true") {
-    if (!userFavorites.map((e) => e.id).includes(movie.id)) {
-      userFavorites.push(movie);
-    }
-    session.set("user", {
-      email: user.email,
-      favorites: userFavorites,
-    });
-  } else {
-    const index = userFavorites.map((e) => e.id).indexOf(movieId);
-    userFavorites.splice(index, 1);
-    session.set("user", {
-      email: user.email,
-      favorites: userFavorites,
-    });
-  }
-
-  console.log(session.data.user);
+  const session = await favoriteUpdate(request);
 
   return json(
     {},
@@ -107,11 +80,8 @@ export default function Movies() {
   let genreMovie = Object.entries(showCase).map((gm) => gm);
 
   return (
-    <>
-      <h1>Movies</h1>
-      {/* <img src={url} alt="" /> */}
+    <div className="movies-genreView">
       {error ? error : <MovieList movieList={genreMovie} user={user} />}
-      {/* {genreMovie.map((gm) => gm)} */}
-    </>
+    </div>
   );
 }

@@ -16,8 +16,6 @@ export async function loader({ params }) {
 
   const result = await response.json();
 
-  // console.log(result);
-
   const movie = {};
   movie.title = result.title;
   movie.description = result.description;
@@ -37,22 +35,35 @@ export async function loader({ params }) {
     .filter((credit) => credit["plprogram$creditType"] == "director")
     .map((director) => director["plprogram$personName"]);
 
-  return json({ movie, result });
+  return json({ movie });
 }
 export default function MoviePage() {
-  const { movie, result } = useLoaderData();
-  // console.log(showCase);
-  // console.log(id);
-  console.log(result);
+  const { movie } = useLoaderData();
 
   return (
-    <>
-      <div>Title: {movie.title}</div>
-      <div>desription: {movie.description}</div>
-      <div>year: {movie.year}</div>
-      <div>Genre: {movie.genre.join(", ")}</div>
-      <div>Actors: {movie.actors.join(", ")}</div>
-      <div>Directors: {movie.directors.join(", ")}</div>
-    </>
+    <div className="movie-box">
+      <div>
+        <h1>{movie.title}</h1>
+      </div>
+      <div>
+        <h3>YEAR</h3> {movie.year}
+      </div>
+      <div>
+        <h3>GENRER</h3> {movie.genre.join(", ")}
+      </div>
+      <div>
+        <h3>DESCRIPTION</h3>
+        {movie.description}
+      </div>
+      <div>
+        <h3>CAST</h3>
+        <div>
+          <h4>Directors</h4> {movie.directors.join(", ")}
+        </div>
+        <div>
+          <h4>Actors</h4> {movie.actors.join(", ")}
+        </div>
+      </div>
+    </div>
   );
 }

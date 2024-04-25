@@ -36,30 +36,33 @@ export async function action({ request }) {
       },
     }
   );
-
-  // return await authenticator.logout(request, { redirectTo: "/movies" });
 }
 
 export default function Profile() {
   const { user } = useLoaderData();
   const [favorites, setFavorites] = useState(user.favorites);
 
-  useEffect(() => {
-    console.log(favorites);
-  }, [favorites]);
+  useEffect(() => {}, [favorites]);
 
-  console.log(user);
   return (
     <>
-      <Form method="post">
-        <h1>Welcome to your profile, see your favorite movies</h1>
-        <button type="submit">Logout</button>
-      </Form>
-      <ul>
-        {user.favorites?.map((movie) => (
-          <MovieItem user={user} movie={movie} key={movie.id} />
-        ))}
-      </ul>
+      {/* <h1>Welcome to your profile, see your favorite movies</h1> */}
+      <div className="profile">
+        <div>
+          <h3>Welcome, Check out your favorite movies.</h3>
+        </div>
+
+        <ul>
+          {user.favorites?.map((movie) => (
+            <MovieItem
+              user={user}
+              movie={movie}
+              key={movie.id}
+              favState={setFavorites}
+            />
+          ))}
+        </ul>
+      </div>
     </>
   );
 }

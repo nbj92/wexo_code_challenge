@@ -1,31 +1,262 @@
-input,
-button {
-  font-size: 1rem;
-  font-family: inherit;
-  border: none;
-  border-radius: 8px;
-  padding: 0.5rem 0.75rem;
-  background-color: white;
-  line-height: 1.5;
-  margin: 0;
-  box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+/************* ROOT / GENERAL *************/
+
+* {
+    box-sizing: border-box;
+}
+html,body {
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
 }
 
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+}
+h1 {
+    font-size: 20px;
+}
+
+ul {
+    padding:0;
+}
 li {
     list-style-type: none;
     display:flex;
-    /* border: 1px solid black; */
     align-items: center;
+    margin-bottom: 10px;
+    margin: 0 10px 10px;
+    /* padding: 0 10px; */
 }
+li:hover
+{
+    background:
+    rgba(111, 111, 111, 0.187);
+}
+ li:hover button {
+    background: #E4E4E4;
+ }
+li button {
+    box-shadow: none;
+    font-size: inherit;
+}
+
+
+li button {
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  margin: 0;
+ }
+
+input {
+    font-size: 1rem;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    background-color: white;
+    line-height: 1.5;
+    margin: 0;
+    box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.2), 0 1px 2px hsla(0, 0%, 0%, 0.2);
+  }
+
+
 
 form button[value="true"] {
     color: #a4a4a4;
 }
+
 form button[value="true"]:hover,
 form button[value="false"] {
     color: #eeb004;
 }
 
-li button {
-    box-shadow: none;
+.banner {
+  display: flex;
+  overflow: hidden;
+}
+
+.banner div { display: none}
+
+.banner img, .banner {
+    height: 150px;
+}
+
+header{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    box-shadow: 0px 0.5px 4px black;
+}
+nav {
+    display:flex;
+    font-size: 16px;
+}
+nav > * {
+    padding: 10px 20px;
+}
+nav button {
+    margin: 0;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+}
+
+#content {
+    padding: 10px;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
+}
+a:hover, nav button:hover{
+    text-decoration: underline;
+}
+/* a:focus {
+    background: rgba(111, 111, 111, 0.187);
+} */
+
+/************* ROUTE: /profile *************/
+
+.profile {
+    padding: 15px 0px;
+}
+.profile > div:first-child {
+    padding: 0 10px;
+}
+
+
+/************* 
+
+COMPONENTS (prefix): 
+    movieList (movies-mvList)
+    movieItem (movies-mvItem)
+
+ *************/
+
+.movies-mvList-genre h2 {
+    margin-right: auto;
+}
+
+.movies-mvList-genre {
+    padding: 5px 10px;
+}
+.movies-mvList-genre, 
+.movies-mvItem-item,
+.movies-mvItem-title {
+    display: flex;
+    align-items: center;
+}
+.movies-mvItem-title {
+    gap: 10px;
+    margin-right: auto;
+}
+
+
+/************* ROUTE: /movies *************/
+.movies-genreView {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding: 0 10px;
+}
+
+.movies-genreView > *:not(:last-child) {
+    box-shadow: 0px 3px 5px -2px rgba(111, 111, 111, 1);
+}
+
+.movies-genreView > * {
+    padding: 10px 0;
+}
+
+
+/************* ROUTE: /movies/:id *************/
+.movie-box {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 350px;
+}
+
+.movie-box h3 {
+    margin-bottom: 5px;
+}
+.movie-box h4  {
+    text-decoration: underline;
+    margin: 10px 0 5px;
+}
+
+
+/************* ROUTE: /movies/genre/:genreId/:pageId *************/
+
+.genre-view {
+    padding: 15px 10px 0px;
+}
+.genre-view h1 {
+    padding: 0 0 5px 10px;
+}
+
+
+@media only screen and (min-width: 500px) {
+    .banner img {
+        background-repeat: no-repeat;
+        max-height: 150px;
+    }
+
+    .banner div {
+    display: block;
+    flex-grow: 1;
+    align-self: center;
+    text-align: center;
+    font-size: 7vw;
+    }
+
+    
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1200px) {
+    .movies-genreView {
+        grid-template-columns: 1fr 1fr;
+    }
+    .movies-genreView > *:not(:last-child) {
+        box-shadow: none;  
+        position: relative;
+    }
+    .movies-genreView > *:nth-of-type(2n):not(:last-child)::before {
+        content: "";
+        position: absolute;
+        height: 50px;
+        box-shadow: 0px 3px 5px -2px rgba(111, 111, 111, 1);
+        bottom: 0;
+        right: 0; 
+        left: -100%;
+        width: 100vw;
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+    .movies-genreView {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    .movies-genreView > *:not(:last-child) {
+        box-shadow: none;  
+        position: relative;
+    }
+    .movies-genreView > *:nth-of-type(3n):not(:last-child)::before {
+        content: "";
+        position: absolute;
+        height: 50px;
+        box-shadow: 0px 3px 5px -2px rgba(111, 111, 111, 1);
+        bottom: 0;
+        right: 0; 
+        left: -200%;
+        width: 200vw;
+    }
+    
 }

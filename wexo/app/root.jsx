@@ -1,4 +1,5 @@
 import {
+  Form,
   Link,
   Links,
   Meta,
@@ -10,8 +11,6 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { authenticator } from "./services/auth.server";
-
-// existing imports
 
 import appStylesHref from "./styles/app.css?url";
 
@@ -46,16 +45,28 @@ export default function App() {
   return (
     <div>
       <header>
+        <div className="banner">
+          <img src={"app/img/topbanner.jpg"} alt="MovieBox" />{" "}
+          <div>MovieBox</div>
+        </div>
+
         <nav>
           <Link to="/movies">Movies</Link>{" "}
           {user ? (
-            <Link to="/profile">Profile</Link>
+            <>
+              <Link to="/profile">Profile</Link>
+              <Form method="post" action="/logout">
+                <button type="submit">Logout</button>
+              </Form>
+            </>
           ) : (
             <Link to="/login">Login</Link>
           )}
         </nav>
       </header>
-      <Outlet />
+      <div id="content">
+        <Outlet />
+      </div>
     </div>
   );
 }
@@ -71,7 +82,6 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
-        {/* add the UI you want your users to see */}
         <h1>THE PAGE WAS NOT FOUND (404)</h1>
         <Scripts />
       </body>

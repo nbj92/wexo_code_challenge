@@ -1,4 +1,21 @@
-import { Link, NavLink, json, redirect, useLoaderData } from "@remix-run/react";
+import { Link, json, useLoaderData } from "@remix-run/react";
+import { authenticator } from "../services/auth.server";
+import MovieItem from "../components/movieItem";
+import favoriteUpdate from "../functions/favoriteUpdate";
+import { commitSession } from "../services/session.server";
+
+export async function action({ request }) {
+  const session = await favoriteUpdate(request);
+
+  return json(
+    {},
+    {
+      headers: {
+        "Set-Cookie": await commitSession(session),
+      },
+    }
+  );
+}
 
 export async function loader({ params, request }) {
   const genreId = params.genreId;
@@ -42,6 +59,7 @@ export async function loader({ params, request }) {
 
   console.log(movies.length);
 
+  const user = await authenticator.isAuthenticated(request);
   // console.log(new URL(request.url).pathname);
 
   console.log(
@@ -59,31 +77,32 @@ export async function loader({ params, request }) {
   //   );
   // }
 
-  return json({ genreId, movies, pageId });
+  return json({ genreId, movies, pageId, user });
 }
 
 export default function GenrePage() {
-  const { genreId, movies, pageId } = useLoaderData();
+  const { genreId, movies, pageId, user } = useLoaderData();
 
   return (
-    <div>
+    <div className="genre-view">
       <h1>{genreId}</h1>
       <ul>
-        {movies.map((movie) => {
-          const id = movie.id.split("/").slice(-1)[0];
-          return <li key={id}>{movie.title}</li>;
-        })}
+        {movies.map((movie) => (
+          <MovieItem user={user} movie={movie} key={movie.id} />
+        ))}
       </ul>
-      {pageId > 1 ? (
-        <Link to={`../${pageId - 1}`} relative="path">
-          Forrige
-        </Link>
-      ) : null}{" "}
-      {movies.length >= 100 ? (
-        <Link to={`../${pageId + 1}`} relative="path">
-          Næste
-        </Link>
-      ) : null}
+      <div className="genre-pages">
+        {pageId > 1 ? (
+          <Link to={`../${pageId - 1}`} relative="path">
+            Forrige
+          </Link>
+        ) : null}{" "}
+        {movies.length >= 100 ? (
+          <Link to={`../${pageId + 1}`} relative="path">
+            Næste
+          </Link>
+        ) : null}
+      </div>
     </div>
   );
 }
