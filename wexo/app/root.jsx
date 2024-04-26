@@ -11,6 +11,7 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { authenticator } from "./services/auth.server";
+import topbanner from "./img/topbanner.jpg";
 
 import appStylesHref from "./styles/app.css?url";
 
@@ -53,8 +54,7 @@ export default function App() {
     <div>
       <header>
         <div className="banner">
-          <img src={"/app/img/topbanner.jpg"} alt="MovieBox" />{" "}
-          <div>MovieBox</div>
+          <img src={topbanner} alt="MovieBox" /> <div>MovieBox</div>
         </div>
 
         <nav>
