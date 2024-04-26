@@ -2,10 +2,10 @@ import { useFetcher } from "@remix-run/react";
 
 export default function Favorit({ user, movie, favState = null }) {
   const currentMovie = { title: movie.title, id: movie.id };
-  const fetcher = useFetcher();
+  const fetcher = useFetcher(); // get the data submitted with useFetcher instead of reloading
   const favorite = fetcher.formData
     ? fetcher.formData.get("favorite") == "true"
-    : user?.favorites?.map((e) => e.id).includes(currentMovie.id);
+    : user?.favorites?.map((e) => e.id).includes(currentMovie.id); // favorit is updated to the fetcher formData or the users preferences
 
   return (
     <fetcher.Form method="post">

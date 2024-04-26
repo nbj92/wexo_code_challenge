@@ -24,13 +24,16 @@ export async function loader({ request }) {
       redirect: "follow",
     };
 
+    // Fetch Data to show
     const response = await fetch(
       "https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byTags=genre:war|action|comedy|thriller|romance|drama|crime|documentary|horror&range=1-300&sort=title&fields=id,title,tags",
       requestOptions
     );
 
+    // Parse request body to json
     const result = await response.json();
 
+    // Genres that need to be shown on page
     const genres = [
       "Action",
       "Komedie",
@@ -43,9 +46,13 @@ export async function loader({ request }) {
       "Gyser",
     ];
 
+    // object to hold key/value of genres/movies(array)
     const showCase = {};
+
+    // add property key matching the respective genres
     genres.forEach((genre) => (showCase[genre] = []));
 
+    // loop through the tags of the movies and add movie.id and movie.title to showCase obj.
     result.entries.forEach((movie) => {
       const tags = movie["plprogram$tags"];
 
@@ -60,6 +67,7 @@ export async function loader({ request }) {
       });
     });
 
+    // Auth user. Used to show favorite icons
     const user = await authenticator.isAuthenticated(request);
 
     return json({ showCase, user });
@@ -71,13 +79,11 @@ export async function loader({ request }) {
 export default function Movies() {
   const { showCase, user, error } = useLoaderData();
 
-  //   console.log(
-  //     result.entries[0]["plprogram$thumbnails"]["orig-93x165"]["plprogram$url"]
-  //   );
+  // Because of no available pictures a placeholder cover is used.
   const url = "https://placehold.co/150x100?text=No%20Cover";
-  //   const url =
-  //     result.entries[0]["plprogram$thumbnails"]["orig-93x165"]["plprogram$url"];
-  let genreMovie = Object.entries(showCase).map((gm) => gm);
+
+  // convert object to array consisting of arrays of [genre, [movies]]
+  let genreMovie = Object.entries(showCase);
 
   return (
     <div className="movies-genreView">

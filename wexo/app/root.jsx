@@ -14,6 +14,13 @@ import { authenticator } from "./services/auth.server";
 
 import appStylesHref from "./styles/app.css?url";
 
+export const meta = () => {
+  return [
+    { title: "MovieBox" },
+    { name: "description", content: "Welcome to Remix!" },
+  ];
+};
+
 export const links = () => [{ rel: "stylesheet", href: appStylesHref }];
 
 export function Layout({ children }) {
@@ -46,7 +53,7 @@ export default function App() {
     <div>
       <header>
         <div className="banner">
-          <img src={"app/img/topbanner.jpg"} alt="MovieBox" />{" "}
+          <img src={"/app/img/topbanner.jpg"} alt="MovieBox" />{" "}
           <div>MovieBox</div>
         </div>
 

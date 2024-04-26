@@ -1,4 +1,3 @@
-// app/services/auth.server.ts
 import { Authenticator, AuthorizationError } from "remix-auth";
 import { sessionStorage } from "./session.server";
 import { FormStrategy } from "remix-auth-form";
@@ -27,8 +26,6 @@ authenticator.use(
     } else {
       throw new AuthorizationError("Bad Credentials");
     }
-
-    console.log(user);
     // the type of this user must match the type you pass to the Authenticator
     // the strategy will automatically inherit the type if you instantiate
     // directly inside the `use` method

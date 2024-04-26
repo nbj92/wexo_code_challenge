@@ -1,10 +1,6 @@
-// app/routes/login.jsx
-
 import { Form } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
 
-// First we create our UI with the form doing a POST and the inputs with the
-// names we are going to use in the strategy
 export default function Login() {
   return (
     <Form method="post">
@@ -20,12 +16,9 @@ export default function Login() {
   );
 }
 
-// Second, we need to export an action function, here we will use the
-// `authenticator.authenticate method`
+// ACTION (POST) & LOADERS (GET)
 export async function action({ request }) {
-  // we call the method with the name of the strategy we want to use and the
-  // request object, optionally we pass an object with the URLs we want the user
-  // to be redirected to after a success or a failure
+  // Confirm or reject user input with the chosen strategy to login
   return await authenticator.authenticate("user-pass", request, {
     successRedirect: "/profile",
     failureRedirect: "/login",

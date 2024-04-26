@@ -1,4 +1,4 @@
-import { Form, json, useLoaderData } from "@remix-run/react";
+import { json, useLoaderData } from "@remix-run/react";
 import { authenticator } from "../services/auth.server";
 import MovieItem from "../components/movieItem";
 import { useEffect, useState } from "react";
@@ -17,22 +17,18 @@ export async function action({ request }) {
 
   const movieId = formData.get("movieId");
 
-  const session = await getSession(request.headers.get("Cookie"));
-  let user = session.data.user;
-  let userFavorites = user.favorites;
+  const session = await getSession(request.headers.get("Cookie")); //get the sessionCookie
+  let user = session.data.user; // get user object from the session
+  let userFavorites = user.favorites; //get the array of user favorites
 
-  const index = userFavorites.map((e) => e.id).indexOf(movieId);
-  userFavorites.splice(index, 1);
-  session.set("user", {
-    email: user.email,
-    favorites: userFavorites,
-  });
+  const index = userFavorites.map((e) => e.id).indexOf(movieId); // get array index of the movie
+  userFavorites.splice(index, 1); // delete the movie object from the array
 
   return json(
     { user },
     {
       headers: {
-        "Set-Cookie": await commitSession(session),
+        "Set-Cookie": await commitSession(session), // Commit changes to the session
       },
     }
   );
@@ -42,27 +38,25 @@ export default function Profile() {
   const { user } = useLoaderData();
   const [favorites, setFavorites] = useState(user.favorites);
 
+  // re-render when favorite changes
   useEffect(() => {}, [favorites]);
 
   return (
-    <>
-      {/* <h1>Welcome to your profile, see your favorite movies</h1> */}
-      <div className="profile">
-        <div>
-          <h3>Welcome, Check out your favorite movies.</h3>
-        </div>
-
-        <ul>
-          {user.favorites?.map((movie) => (
-            <MovieItem
-              user={user}
-              movie={movie}
-              key={movie.id}
-              favState={setFavorites}
-            />
-          ))}
-        </ul>
+    <div className="profile">
+      <div>
+        <h3>Welcome, Check out your favorite movies.</h3>
       </div>
-    </>
+
+      <ul>
+        {user.favorites?.map((movie) => (
+          <MovieItem
+            user={user}
+            movie={movie}
+            key={movie.id}
+            favState={setFavorites}
+          />
+        ))}
+      </ul>
+    </div>
   );
 }

@@ -7,7 +7,10 @@ export default function MovieItem({ movie, user, favState = null }) {
     <li key={movie.id}>
       <div className="movies-mvItem-item">
         <div className="movies-mvItem-title">
-          <img src="https://placehold.co/75x50?text=No%20Cover" alt="" />
+          <img
+            src="https://placehold.co/75x50?text=No%20Cover"
+            alt="No Cover"
+          />
           <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
         </div>
         {user ? (

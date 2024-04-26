@@ -21,10 +21,7 @@ export async function loader({ params, request }) {
   const genreId = params.genreId;
   const pageId = parseInt(params.pageId);
 
-  console.log(request);
-
-  console.log(params);
-
+  // Prepare to get a range of 100 movies to show on the page
   const start = (pageId - 1) * 100 + 1;
   const end = pageId * 100;
 
@@ -39,12 +36,15 @@ export async function loader({ params, request }) {
 
   let genre = genreId;
 
+  // Loop through genreList to find english word for the genre and assign til genreId.
   genreList.forEach((el) => (el[0] == genreId ? (genre = el[1]) : ""));
 
   var requestOptions = {
     method: "GET",
     redirect: "follow",
   };
+
+  // Fetch 100 movies to show on the page
   const response = await fetch(
     "https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas?form=json&lang=da&byTags=genre:" +
       genre +
@@ -57,25 +57,7 @@ export async function loader({ params, request }) {
   let movies = await response.json();
   movies = movies.entries;
 
-  console.log(movies.length);
-
   const user = await authenticator.isAuthenticated(request);
-  // console.log(new URL(request.url).pathname);
-
-  console.log(
-    new URL(request.url).pathname.split("/").splice(1, 3).join("/") +
-      `/${pageId - 1}`
-  );
-
-  // console.log(window.history.state);
-
-  // if (movies?.length == 0) {
-  //   return redirect(
-  //     `/${new URL(request.url).pathname.split("/").splice(1, 3).join("/")}/${
-  //       pageId - 1
-  //     }`
-  //   );
-  // }
 
   return json({ genreId, movies, pageId, user });
 }
@@ -91,6 +73,7 @@ export default function GenrePage() {
           <MovieItem user={user} movie={movie} key={movie.id} />
         ))}
       </ul>
+      {/* Navigate between pages */}
       <div className="genre-pages">
         {pageId > 1 ? (
           <Link to={`../${pageId - 1}`} relative="path">

@@ -7,6 +7,8 @@ export async function loader({ params }) {
     method: "GET",
     redirect: "follow",
   };
+
+  // Fetch data for the specific movie
   const response = await fetch(
     "https://feed.entertainment.tv.theplatform.eu/f/jGxigC/bb-all-pas/" +
       id +
@@ -16,13 +18,13 @@ export async function loader({ params }) {
 
   const result = await response.json();
 
+  // Save all the relevant data in variable 'movie'
   const movie = {};
   movie.title = result.title;
   movie.description = result.description;
   movie.year = result["plprogram$year"];
 
-  // console.log(result["plprogram$credits"]);
-
+  // filter and map to get genre, actors & directors respectively
   movie.genre = result["plprogram$tags"]
     .filter((tag) => tag["plprogram$scheme"] == "genre")
     .map((tag) => tag["plprogram$title"]);
@@ -38,6 +40,7 @@ export async function loader({ params }) {
   return json({ movie });
 }
 export default function MoviePage() {
+  // Destructure movie object from data provided by route loader
   const { movie } = useLoaderData();
 
   return (
