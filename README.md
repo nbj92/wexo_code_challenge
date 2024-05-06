@@ -6,6 +6,9 @@
     OR
     2.2. Type "npm run build" then "npm start"
 
+Test User:
+username: test@test.dk
+password: test1234
 
 The Solution is also deployed at render.com
 Link: https://wexo-code-challenge.onrender.com/movies
